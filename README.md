@@ -5,3 +5,6 @@ Goals:
 1) Create a 3 resource online store
 2) Have it fully secured.
 3) Have it interface with other Online stores through API calls
+
+
+test
