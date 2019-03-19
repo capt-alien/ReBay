@@ -2,6 +2,8 @@ from flask import Flask, jsonify, request, render_template
 
 app = Flask(__name__)
 
+app.config['DEBUG'] = True
+
 stores = [{
     'name': 'My Store',
     'items': [{'name':'my item', 'price': 15.99 }]
