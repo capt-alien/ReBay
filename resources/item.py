@@ -12,11 +12,11 @@ class Item(Resource):
                         required=True,
                         help="This Field Cannot Be left blank!"
                         )
-    # parser.add_argument('store_id',
-    #                     type=int,
-    #                     required=True,
-    #                     help="Every item needs a store_id."
-    #                     )
+    parser.add_argument('store_id',
+                        type=int,
+                        required=True,
+                        help="Every item needs a store_id."
+                        )
 
     # @jwt_required()
     def get(self, name):
