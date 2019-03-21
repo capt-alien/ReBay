@@ -4,7 +4,7 @@ from flask_jwt import JWT
 
 # Modules turn on as they are created
 from security import authenticate, identity
-from resources.user import UserRegister
+from resources.user import UserRegister,, User
 from resources.item import Item, ItemList
 from resources.store import Store, StoreList
 
@@ -23,6 +23,12 @@ def create_tables():
 # Auth (turn on later)
 jwt = JWT(app, authenticate, identity)
 
+
+# Home Route
+@app.route('/')
+def home():
+    return render_template('index.html')
+
 # ITEM
 api.add_resource(Item, '/item/<string:name>')
 api.add_resource(ItemList, '/items')
@@ -31,6 +37,8 @@ api.add_resource(Store, '/store/<string:name>')
 api.add_resource(StoreList, '/stores')
 # User
 api.add_resource(UserRegister, '/register')
+api.add_resource(User, '/user/<int:user_ud')
+
 
 
 if __name__ == '__main__':
