@@ -1,4 +1,5 @@
 from flask_restful import Resource, reqparse
+from flask_jwt import jwt_required
 from models.user import UserModel
 
 
@@ -49,5 +50,6 @@ class User(Resource):
 
 class UserList(Resource):
     # returns all UserRegister Need to make it only for user ID and user name
+    @jwt_required()
     def get(self):
         return {'users': list(map(lambda user: user.json(), UserModel.query.all()))}
