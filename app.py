@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restful import Api
-from flask_jwt import jwt
+from flask_jwt import JWT
 
 # Modules turn on as they are created
 from security import authenticate, identity
@@ -21,7 +21,7 @@ def create_tables():
     db.create_all()
 
 # Auth (turn on later)
-# jwt = JWT(app, authenticate, identity)
+jwt = JWT(app, authenticate, identity)
 
 # ITEM
 api.add_resource(Item, '/item/<string:name>')
