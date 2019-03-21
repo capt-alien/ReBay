@@ -29,7 +29,6 @@ class UserRegister(Resource):
 
         return {"message": "User created successfully."}, 201
 
-
 class User(Resource):
     # returns a user as json
     @classmethod
@@ -53,3 +52,23 @@ class UserList(Resource):
     @jwt_required()
     def get(self):
         return {'users': list(map(lambda user: user.json(), UserModel.query.all()))}
+
+class UserLogin(Resource):
+        parser=reqparse.RequestParser()
+        parser.add_argument('username',
+                            type=str,
+                            required=True,
+                            help="This field cannot be blank."
+                            )
+        parser.add_argument('password',
+                            type=str,
+                            required=True,
+                            help="This field cannot be blank."
+                            )
+    def post(self):
+        pass
+        #get data from pasrser
+        #find user in DB
+        #Check password
+        #create access token
+        # Create refresh token

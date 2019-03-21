@@ -1,9 +1,8 @@
 from flask import Flask, render_template
 from flask_restful import Api
-from flask_jwt import JWT
+from flask_jwt_extended import JWTManager
 
 # Modules turn on as they are created
-from security import authenticate, identity
 from resources.user import UserRegister, User, UserList
 from resources.item import Item, ItemList
 from resources.store import Store, StoreList
@@ -21,7 +20,7 @@ def create_tables():
     db.create_all()
 
 # Auth (turn on later)
-jwt = JWT(app, authenticate, identity)
+jwt = JWTManager(app)
 
 
 # Home Route
