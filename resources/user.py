@@ -46,3 +46,8 @@ class User(Resource):
             return {'message': 'User Not found'},404
         user.delete_from_db()
         return {'message': 'User deleted.'}, 200
+
+class UserList(Resource):
+    # returns all UserRegister Need to make it only for user ID and user name
+    def get(self):
+        return {'users': list(map(lambda user: user.json(), UserModel.query.all()))}
