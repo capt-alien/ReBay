@@ -1,7 +1,9 @@
 from flask_restful import Resource, reqparse
-from werrkzeug.security import safe_str_cmp
-from flask_jwt_extended import create_access_token, create_refresh_token
+from werkzeug.security import safe_str_cmp
+from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required
+
 from models.user import UserModel
+
 
 # parser
 _user_parser=reqparse.RequestParser()
@@ -20,7 +22,7 @@ _user_parser.add_argument('password',
 # *******USER RESOURCE*****
 class UserRegister(Resource):
     def post(self):
-        data = UserRegister._user_parser.parse_args()
+        data = _user_parser.parse_args()
 
         if UserModel.find_by_username(data['username']):
             return {"message": "A user with that username already exists"}, 400
@@ -58,7 +60,7 @@ class UserLogin(Resource):
     @classmethod
     def post(cls):
         #get data from pasrser
-        data = cls._user_parser.parse_args()
+        data = _user_parser.parse_args()
         #find user in DB
         user = UserModel.find_by_username(data['username'])
         #Check password

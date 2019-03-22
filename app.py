@@ -22,6 +22,10 @@ def create_tables():
 # Auth (turn on later)
 jwt = JWTManager(app)
 
+@jwt.user_claims_loader
+def add_claims_to_jwt(identity):
+
+
 
 # Home Route
 @app.route('/')
