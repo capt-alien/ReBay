@@ -1,7 +1,8 @@
 # resources
 from flask_restful import Resource, reqparse
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_claims, get_jwt_identity, jwt_optional
 from models.item import ItemModel
+
 
 
 # item resources
@@ -68,5 +69,13 @@ class Item(Resource):
         return item.json()
 
 class ItemList(Resource):
+    @jwt_optional #Useful if you want to give a little info if the user is not logged in
     def get(self):
-        return {'items': list(map(lambda x: x.json(), ItemModel.query.all()))}
+        user_id = get_jwt_identity() #Quick way to get identity with out big expression
+        items = [item.json() for item in ItemModel.find_all()]
+        if user_id:
+            return {'items': items}, 200
+        return {
+            'items': [item['name']for item in items],
+            'message': 'More data available if you log in'
+            }
