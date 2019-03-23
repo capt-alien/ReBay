@@ -1,5 +1,6 @@
 from flask_restful import Resource, reqparse
 from werkzeug.security import safe_str_cmp
+from hashlib import sha256
 from flask_jwt_extended import (
     create_access_token,
     create_refresh_token,
@@ -24,19 +25,27 @@ _user_parser.add_argument('username',
 _user_parser.add_argument('password',
                             type=str,
                             required=True,
-                            help="This field cannot be blank."
+                            help="This field cannot be blank.",
+                            # add argument to limit the charictors to 30
+                            #can use RE to determine the types of passwords
                             )
+
+LAUNCHCODE = "dickhead"
+salt = LAUNCHCODE
+# Salt and Hash function for entering PW into DB
+def salt_n_hash(password):
+    return sha256(str.encode(password+salt)).hexdigest()
 
 
 # *******USER RESOURCE*****
 class UserRegister(Resource):
     def post(self):
         data = _user_parser.parse_args()
-
         if UserModel.find_by_username(data['username']):
             return {"message": "A user with that username already exists"}, 400
 
-        user = UserModel(data['username'], data['password'])
+        user = UserModel(data['username'], salt_n_hash(data['password']))
+        #Hash the password:
         user.save_to_db()
 
         return {"message": "User created successfully."}, 201
@@ -72,8 +81,8 @@ class UserLogin(Resource):
         data = _user_parser.parse_args()
         #find user in DB
         user = UserModel.find_by_username(data['username'])
-        #Check password
-        if user and safe_str_cmp(user.password, data['password']):
+        #Check password and unsalt DB password
+        if user and safe_str_cmp(user.password, salt_n_hash(data['password'])):
             access_token = create_access_token(identity=user.id, fresh=True)
             refresh_token = create_refresh_token(user.id)
             return {
