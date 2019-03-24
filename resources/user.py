@@ -13,6 +13,8 @@ from flask_jwt_extended import (
 
 from models.user import UserModel
 from blacklist import BLACKLIST
+from secret import LAUNCHCODE
+
 
 
 # parser
@@ -30,7 +32,6 @@ _user_parser.add_argument('password',
                             #can use RE to determine the types of passwords
                             )
 
-LAUNCHCODE = "dickhead"
 salt = LAUNCHCODE
 # Salt and Hash function for entering PW into DB
 def salt_n_hash(password):
@@ -92,6 +93,9 @@ class UserList(Resource):
 class UserLogin(Resource):
     @classmethod
     def post(cls):
+        print("**************TEST****************")
+        print(LAUNCHCODE)
+
         #get data from pasrser
         data = _user_parser.parse_args()
         #find user in DB
