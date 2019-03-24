@@ -32,8 +32,6 @@ _user_parser.add_argument('password',
                             # add argument to limit the charictors to 30
                             #can use RE to determine the types of passwords
                             )
-print("HERE")
-print(os.environ['LAUNCH_CODE'])
 # print(os.environ)
 salt = os.environ['LAUNCH_CODE']
 
