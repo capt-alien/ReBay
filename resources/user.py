@@ -70,11 +70,12 @@ class User(Resource):
         return {'message': 'User deleted.'}, 200
 
     # Updates user password
+    #TODO: This needs to be only the user that is signed in
+    @jwt_required
     @classmethod
     def put(cls, user_id):
         data = _user_parser.parse_args()
         user = UserModel.find_by_id(user_id)
-        print("*************TEST 1**********")
         print(user.username, user.password)
         if user:
             user.password = salt_n_hash(data['password'])
@@ -84,18 +85,33 @@ class User(Resource):
         return {'message':'Password updated'}
 
 
+class Recover_PW(Resource):
+        # Updates user password
+        #clearly this will need to be beefed up before handleing money
+        #future improvments will be a more roubust Password recover ability
+    @classmethod
+    def put(cls):
+        data = _user_parser.parse_args()
+        user = UserModel.find_by_username(data['username'])
+        if user:
+            user.password = salt_n_hash(data['password'])
+        else:
+            {'message':"user not found"}
+        user.save_to_db()
+        return {'message':'Password updated'}
+
+
+
 class UserList(Resource):
     # returns all UserRegister Need to make it only for user ID and user name
     @jwt_required
     def get(self):
         return {'users': list(map(lambda user: user.json(), UserModel.query.all()))}
 
+
 class UserLogin(Resource):
     @classmethod
     def post(cls):
-        print("**************TEST****************")
-        print(LAUNCHCODE)
-
         #get data from pasrser
         data = _user_parser.parse_args()
         #find user in DB
@@ -110,12 +126,14 @@ class UserLogin(Resource):
             }, 200
         return{'message': 'Invalid credentials'}, 401
 
+
 class UserLogout(Resource):
     @jwt_required
     def post(self):
         jti = get_raw_jwt()['jti'] #jti is "JWT ID", a UID for JWt
         BLACKLIST.add(jti)
         return{'message': 'Successfully logged out.'}, 200
+
 
 class TokenRefresh(Resource):
     @jwt_refresh_token_required

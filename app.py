@@ -3,7 +3,14 @@ from flask_restful import Api
 from flask_jwt_extended import JWTManager
 
 # Modules turn on as they are created
-from resources.user import UserRegister, User, UserList, UserLogin, TokenRefresh, UserLogout
+from resources.user import (UserRegister,
+        User,
+        UserList,
+        UserLogin,
+        TokenRefresh,
+        UserLogout,
+        Recover_PW
+        )
 from resources.item import Item, ItemList
 from resources.store import Store, StoreList
 from blacklist import BLACKLIST
@@ -62,6 +69,7 @@ api.add_resource(UserList, '/users')
 api.add_resource(UserLogin, '/auth')
 api.add_resource(UserLogout, '/logout')
 api.add_resource(TokenRefresh, '/refresh')
+api.add_resource(Recover_PW, '/recover')
 
 
 
