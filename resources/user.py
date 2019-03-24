@@ -68,6 +68,21 @@ class User(Resource):
         user.delete_from_db()
         return {'message': 'User deleted.'}, 200
 
+    # Updates user password
+    @classmethod
+    def put(cls, user_id):
+        data = _user_parser.parse_args()
+        user = UserModel.find_by_id(user_id)
+        print("*************TEST 1**********")
+        print(user.username, user.password)
+        if user:
+            user.password = salt_n_hash(data['password'])
+        else:
+            {'message':"user not found"}
+        user.save_to_db()
+        return {'message':'Password updated'}
+
+
 class UserList(Resource):
     # returns all UserRegister Need to make it only for user ID and user name
     @jwt_required
