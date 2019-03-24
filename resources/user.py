@@ -1,6 +1,7 @@
 from flask_restful import Resource, reqparse
 from werkzeug.security import safe_str_cmp
 from hashlib import sha256
+import os
 from flask_jwt_extended import (
     create_access_token,
     create_refresh_token,
@@ -31,8 +32,11 @@ _user_parser.add_argument('password',
                             # add argument to limit the charictors to 30
                             #can use RE to determine the types of passwords
                             )
+print("HERE")
+print(os.environ['LAUNCH_CODE'])
+# print(os.environ)
+salt = os.environ['LAUNCH_CODE']
 
-salt = LAUNCHCODE
 # Salt and Hash function for entering PW into DB
 def salt_n_hash(password):
     return sha256(str.encode(password+salt)).hexdigest()
