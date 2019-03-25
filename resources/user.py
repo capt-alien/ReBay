@@ -28,7 +28,7 @@ _user_parser.add_argument('username',
 _user_parser.add_argument('password',
                             type=str,
                             required=True,
-                            help="This field cannot be blank.",
+                            help="This field cannot be blank."
                             # add argument to limit the charictors to 30
                             #can use RE to determine the types of passwords
                             )
