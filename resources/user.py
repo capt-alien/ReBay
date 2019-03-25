@@ -14,9 +14,6 @@ from flask_jwt_extended import (
 
 from models.user import UserModel
 from blacklist import BLACKLIST
-from secret import LAUNCHCODE
-
-
 
 # parser
 _user_parser=reqparse.RequestParser()
