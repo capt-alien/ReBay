@@ -22,6 +22,7 @@ _user_parser.add_argument('username',
                             required=True,
                             help="This field cannot be blank."
                             )
+
 _user_parser.add_argument('password',
                             type=str,
                             required=True,
@@ -92,17 +93,19 @@ class Recover_PW(Resource):
     def put(cls):
         data = _user_parser.parse_args()
         user = UserModel.find_by_username(data['username'])
+        print(data['username'],data['password'])
         if user:
             user.password = salt_n_hash(data['password'])
+            user.save_to_db()
         else:
             {'message':"user not found"}
-        user.save_to_db()
         return {'message':'Password updated'}
 
 
 
 class UserList(Resource):
     # returns all UserRegister Need to make it only for user ID and user name
+    #need to make it so that only the admin can use this
     @jwt_required
     def get(self):
         return {'users': list(map(lambda user: user.json(), UserModel.query.all()))}

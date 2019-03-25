@@ -8,6 +8,7 @@ class UserModel(db.Model):
     # Need to limit the pw parser to 30 words
     password = db.Column(db.String(100))
 
+
     def __init__(self, username, password):
         self.username = username
         self.password = password

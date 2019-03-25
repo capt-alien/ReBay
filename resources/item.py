@@ -75,13 +75,5 @@ class Item(Resource):
         return item.json()
 
 class ItemList(Resource):
-    @jwt_optional #Useful if you want to give a little info if the user is not logged in
     def get(self):
-        user_id = get_jwt_identity() #Quick way to get identity with out big expression
-        items = [item.json() for item in ItemModel.find_all()]
-        if user_id:
-            return {'items': items}, 200
-        return {
-            'items': [item['name']for item in items],
-            'message': 'More data available if you log in'
-            }
+        return {'items': [x.json() for x in ItemModel.find_all()]}
