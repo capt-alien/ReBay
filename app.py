@@ -17,6 +17,7 @@ from resources.user import (UserRegister,
         )
 from resources.item import Item, ItemList
 from resources.store import Store, StoreList
+#TEST#
 
 
 app = Flask(__name__)
