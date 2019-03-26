@@ -5,6 +5,7 @@ from flask_restful import Api
 from flask_jwt_extended import JWTManager
 
 # Modules turn on as they are created
+from db import db
 from resources.user import (UserRegister,
         User,
         UserList,
@@ -16,7 +17,6 @@ from resources.user import (UserRegister,
 from resources.item import Item, ItemList
 from resources.store import Store, StoreList
 from blacklist import BLACKLIST
-from db import db
 
 
 app = Flask(__name__)
