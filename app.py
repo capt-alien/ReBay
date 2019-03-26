@@ -52,15 +52,9 @@ def epired_token_callback():
     }), 401
 
 
-
-# Home Route
-# @app.route('/')
-# def home():
-#     return render_template('index.html')
-
 # ITEM
-api.add_resource(Item, '/item/<string:name>')
 api.add_resource(ItemList, '/')
+api.add_resource(Item, '/item/<string:name>')
 # Store
 api.add_resource(Store, '/store/<string:name>')
 api.add_resource(StoreList, '/stores')
