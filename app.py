@@ -100,7 +100,6 @@ api.add_resource(TokenRefresh, '/refresh')
 api.add_resource(Recover_PW, '/recover')
 
 
-
+db.init_app(app)
 if __name__ == '__main__':
-    db.init_app(app)
     app.run(port=5000, debug=True)
